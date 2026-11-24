@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Royal Palace Mahal • Perplexity & AI Explorer</title>
+
+<!-- Royal Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --gold-primary: #d4af37;
+    --gold-light: #fff3bf;
+    --gold-bright: #ffd700;
+    --gold-dark: #8a6218;
+    --gold-gradient: linear-gradient(135deg, #d4af37 0%, #fff0a6 50%, #aa771c 100%);
+    --gold-border: linear-gradient(90deg, #d4af37, #fef08a, #d4af37);
+    --palace-crimson: #4a0418;
+    --palace-ruby: #700c27;
+    --palace-rose: #fce7f3;
+    --palace-blush: #fff5f8;
+    --palace-marble: #fdfbf7;
+    --palace-parchment: #fffdf9;
+    --text-dark: #230b14;
+    --text-muted: #694a55;
+    --card-shadow: 0 12px 35px rgba(74, 4, 24, 0.08), 0 4px 15px rgba(212, 175, 55, 0.15);
+    --gold-glow: 0 0 15px rgba(212, 175, 55, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    background-color: var(--palace-marble);
+    background-image: 
+      radial-gradient(circle at 10% 10%, rgba(254, 240, 138, 0.3) 0%, transparent 45%),
+      radial-gradient(circle at 90% 90%, rgba(252, 231, 243, 0.45) 0%, transparent 45%),
+      radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.9) 0%, rgba(253, 251, 247, 0.98) 100%);
+    color: var(--text-dark);
+    min-height: 100vh;
+    padding-bottom: 70px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Royal Sparkles Layer */
+  #sparkle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 36px 18px 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Palace Grand Header */
+  .palace-header {
+    text-align: center;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .palace-tiara {
+    display: inline-block;
+    font-size: 38px;
+    filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.6));
+    animation: gentle-bob 3.5s ease-in-out infinite;
+  }
+
+  .royal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1.5px solid var(--gold-primary);
+    padding: 5px 18px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--palace-crimson);
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+    margin: 8px 0 12px;
+  }
+
+  h1 {
+    margin: 0 0 6px;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(26px, 4.5vw, 36px);
+    color: var(--palace-crimson);
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(212, 175, 55, 0.2);
+  }
+
+  h1 span {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  .sub-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 24px;
+    color: var(--gold-dark);
+    margin-bottom: 8px;
+  }
+
+  .sub-desc {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* Royal Mahal Card Architecture */
+  .card {
+    background: #ffffff;
+    border: 2px solid var(--gold-primary);
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    padding: 26px 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Ornate Palace Corner Flourishes */
+  .card::before, .card::after {
+    content: '⚜';
+    position: absolute;
+    font-size: 18px;
+    color: rgba(212, 175, 55, 0.4);
+    line-height: 1;
+  }
+  .card::before { top: 12px; left: 14px; }
+  .card::after { top: 12px; right: 14px; }
+
+  .card-header {
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+
+  .card h2 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    color: var(--palace-crimson);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card h2 .icon {
+    font-size: 22px;
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
+  }
+
+  /* Royal Explanatory Scroll */
+  .what {
+    background: linear-gradient(135deg, #fffcf5 0%, #fff5f8 100%);
+    border-left: 4px solid var(--gold-primary);
+    border-right: 1px solid rgba(212, 175, 55, 0.2);
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--palace-crimson);
+    margin: 12px 0 18px;
+    line-height: 1.6;
+  }
+
+  /* Royal Form Elements */
+  input[type=text] {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 13px 18px;
+    border: 1.5px solid #e7dcd2;
+    border-radius: 12px;
+    font-family: inherit;
+    color: var(--text-dark);
+    background: #fffdfb;
+    transition: all 0.25s ease;
+  }
+
+  input[type=text]:focus {
+    outline: none;
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+    background: #ffffff;
+  }
+
+  input[type=number] {
+    width: 95px;
+    font-size: 15px;
+    padding: 8px 10px;
+    border: 1.5px solid #e7dcd2;
+    border-radius: 9px;
+    font-family: inherit;
+    color: var(--text-dark);
+    background: #fffdfb;
+  }
+
+  input[type=number]:focus {
+    outline: none;
+    border-color: var(--gold-primary);
+  }
+
+  /* Buttons & Royal Badges */
+  button {
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(212, 175, 55, 0.4);
+    background: #fffcf8;
+    color: var(--palace-ruby);
+    cursor: pointer;
+    margin: 8px 6px 0 0;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  button:hover {
+    background: #fff4f8;
+    border-color: var(--gold-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+  }
+
+  button.main {
+    background: var(--gold-gradient);
+    color: var(--palace-crimson);
+    border: 1.5px solid #ffe066;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 26px;
+    border-radius: 40px;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  button.main:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.55);
+  }
+
+  button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none !important;
+  }
+
+  /* Model Status & Progress */
+  .status {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+  }
+
+  .status-gem {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold-primary);
+    box-shadow: 0 0 10px var(--gold-bright);
+    display: inline-block;
+  }
+
+  .error {
+    color: #991b1b;
+    background: #fef2f2;
+    border-left: 4px solid #ef4444;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+
+  /* Royal Table of Tokens */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    font-size: 14px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid rgba(212, 175, 55, 0.35);
+  }
+
+  th, td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #f6eee8;
+    text-align: left;
+  }
+
+  th {
+    background: #fdfaf5;
+    font-family: 'Playfair Display', serif;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--palace-crimson);
+    border-bottom: 2px solid var(--gold-primary);
+  }
+
+  tr:hover td {
+    background: #fff8fb;
+  }
+
+  td.num {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tok {
+    font-family: 'JetBrains Mono', monospace;
+    background: #fdf2f8;
+    color: var(--palace-ruby);
+    border: 1px solid #fbcfe8;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* Steps Formula Section */
+  .steps {
+    margin-top: 18px;
+    background: linear-gradient(180deg, #fffdfa 0%, #fff7fb 100%);
+    border: 1.5px double var(--gold-primary);
+    border-radius: 14px;
+    padding: 20px 22px;
+    line-height: 1.8;
+    font-size: 14.5px;
+  }
+
+  .steps b {
+    color: var(--palace-crimson);
+  }
+
+  .result-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border: 2px solid var(--gold-primary);
+    border-radius: 14px;
+    padding: 16px 22px;
+    margin-top: 16px;
+    box-shadow: 0 4px 18px rgba(212, 175, 55, 0.2);
+  }
+
+  .result-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--palace-crimson);
+  }
+
+  .result-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .result-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--palace-ruby);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+
+  /* Next Prediction Bars */
+  .bar-row {
+    display: grid;
+    grid-template-columns: 36px 140px 1fr 75px;
+    gap: 12px;
+    align-items: center;
+    margin: 8px 0;
+    font-size: 14.5px;
+  }
+
+  .rank-badge {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--palace-crimson);
+  }
+
+  .bar {
+    height: 20px;
+    background: #fdf2f6;
+    border: 1px solid #fbcfe8;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f472b6 0%, #fb7185 100%);
+    border-radius: 8px;
+    transition: width 0.4s ease;
+  }
+
+  .top .fill {
+    background: var(--gold-gradient);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  }
+
+  .pct-num {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--palace-ruby);
+  }
+
+  /* Interactive Handcrafted Simulation */
+  .sim-pill {
+    display: inline-block;
+    background: #fdf2f8;
+    color: var(--palace-ruby);
+    border: 1px solid #f472b6;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 50px;
+  }
+
+  .row-input {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 8px 0;
+  }
+
+  .row-input input[type=text] {
+    width: 160px;
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .btn-remove {
+    background: #fff;
+    color: #991b1b;
+    border-color: #fecaca;
+    padding: 7px 12px;
+    font-size: 12.5px;
+  }
+
+  .btn-remove:hover {
+    background: #fee2e2;
+  }
+
+  /* Footer */
+  .palace-footer {
+    text-align: center;
+    margin-top: 45px;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    padding-top: 24px;
+  }
+
+  .palace-footer span {
+    color: var(--gold-primary);
+  }
+
+  @keyframes gentle-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 20px 16px; }
+    .bar-row { grid-template-columns: 28px 100px 1fr 60px; gap: 8px; font-size: 13px; }
+    .result-banner { flex-direction: column; text-align: center; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ambient Palace Sparkles -->
+<canvas id="sparkle-canvas"></canvas>
+
+<div class="wrap">
+  <!-- Royal Palace Header -->
+  <div class="palace-header">
+    <div class="palace-tiara">👑</div>
+    <br>
+    <div class="royal-tag">⚜ Royal Princess Mahal of AI ⚜</div>
+    <h1>The Royal Palace <span>Perplexity</span> Explorer</h1>
+    <div class="sub-title">Where Code Meets Regal Splendor</div>
+    <p class="sub-desc">
+      Witness how a genuine language model (<strong>DistilGPT-2</strong>) predicts tokens and measures sovereign uncertainty. Delve into the royal mathematics that transform probabilities into <strong>Perplexity</strong>.
+    </p>
+  </div>
+
+  <!-- 1. Real model: Perplexity of a sentence -->
+  <div class="card">
+    <div class="card-header">
+      <h2><span class="icon">🏰</span> 1. Inscribe a Royal Phrase</h2>
+    </div>
+    <div class="what">
+      <strong>How does the model evaluate your royal sentence?</strong><br>
+      The model reads each token one by one. For each token, it evaluates: <em>"How likely did I deem this token, given the royal court of tokens before it?"</em>
+    </div>
+    
+    <input type="text" id="sentence" value="I love Newton School of Technology">
+    
+    <div style="margin-top: 8px;">
+      <button class="sample">I love Newton School of Technology</button>
+      <button class="sample">Newton School of Technology is wonderful</button>
+      <button class="sample">The princess walks through the royal palace</button>
+      <button class="sample">Technology love I Newton</button>
+    </div>
+    
+    <button class="main" id="runBtn">✨ Calculate Royal Perplexity</button>
+    
+    <div class="status" id="status">
+      <span class="status-gem"></span>
+      The neural model loads inside your browser upon the first calculation (one time only).
+    </div>
+  </div>
+
+  <!-- 2. Probability breakdown card -->
+  <div class="card" id="realCard" style="display:none">
+    <div class="card-header">
+      <h2><span class="icon">📜</span> 2. Probability of Each Token → Perplexity</h2>
+    </div>
+    <div class="what">
+      <strong>The Royal Formula:</strong> Perplexity = (1/P₁ × 1/P₂ × … × 1/Pₙ)<sup>1/N</sup>.<br>
+      A smaller probability yields a larger inverse (1/P), driving Perplexity higher. <strong>Lower Perplexity</strong> means the language model found the sentence natural and unsurprising.
+    </div>
+    <div id="realOut"></div>
+  </div>
+
+  <!-- 3. Next token predictions card -->
+  <div class="card" id="nextCard" style="display:none">
+    <div class="card-header">
+      <h2><span class="icon">🔮</span> 3. What Does the Palace Model Predict Next?</h2>
+    </div>
+    <div class="what">
+      The top 8 prophecies the model envisions to follow your phrase, illuminated with their exact probabilities.
+    </div>
+    <div id="nextOut"></div>
+  </div>
+
+  <!-- 4. Simulated experiment -->
+  <div class="card">
+    <div class="card-header">
+      <h2>
+        <span class="icon">✨</span> 4. Try It by Hand 
+        <span class="sim-pill">Handcrafted Palace Simulation • Pure Math</span>
+      </h2>
+    </div>
+    <div class="what">
+      Assign your own probabilities and watch Perplexity respond instantly. Try <em>"Equal 1/8"</em>: if all 8 tokens share probability 0.125, perplexity is exactly <strong>8</strong>.
+    </div>
+    
+    <div>
+      <button class="preset" data-p="I:0.65,love:0.75,Newton:0.60,School:0.85,of:0.95,Technology:0.90">I love Newton School of Technology</button>
+      <button class="preset" data-p="The:0.92,princess:0.88,rules:0.75,with:0.90,wisdom:0.82">Royal Palace Decree (High Confidence)</button>
+      <button class="preset" data-p="t1:0.125,t2:0.125,t3:0.125,t4:0.125,t5:0.125,t6:0.125,t7:0.125,t8:0.125">Equal 1/8 (Perplexity = 8.0)</button>
+      <button class="preset" data-p="The:0.90,princess:0.90,coded:0.90,dragon:0.01">One Surprising Word</button>
+    </div>
+    
+    <div id="simRows" style="margin-top: 14px;"></div>
+    <button id="addRow"><span>➕</span> Add Token</button>
+    
+    <div id="simOut"></div>
+  </div>
+
+  <!-- Palace Footer -->
+  <div class="palace-footer">
+    Crafted with royal grace & sovereign code for <strong>Newton School of Technology</strong> ✦ ADYPU Campus
+  </div>
+</div>
+
+<script type="module">
+import { AutoTokenizer, AutoModelForCausalLM, Tensor } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3";
+
+const MODEL_ID = "Xenova/distilgpt2";
+const START_TOKEN_ID = 50256; // GPT-2's <|endoftext|> start token
+let tokenizer = null, model = null;
+
+const $ = (id) => document.getElementById(id);
+
+// ---------- Number Formatting ----------
+function fmt(x) {
+  if (x === 0) return "0";
+  if (x >= 0.001 && x < 1e6) return Number(x.toPrecision(4)).toString();
+  return x.toExponential(2);
+}
+function showToken(t) { return t.replace(/ /g, "␣").replace(/\n/g, "↵"); }
+
+// ---------- The Perplexity Explanation ----------
+function explain(rows) {
+  const N = rows.length;
+  let sumLog = 0; // sum of ln(1/P) to prevent overflow
+  let html = `<table>
+    <thead>
+      <tr>
+        <th style="width: 45px;">#</th>
+        <th>Token</th>
+        <th style="text-align: right;">Probability (P)</th>
+        <th style="text-align: right;">Surprise (1 / P)</th>
+      </tr>
+    </thead>
+    <tbody>`;
+    
+  rows.forEach((r, i) => {
+    sumLog += -Math.log(r.p);
+    html += `<tr>
+      <td>${i + 1}</td>
+      <td><span class="tok">${showToken(r.token)}</span></td>
+      <td class="num">${fmt(r.p)}</td>
+      <td class="num">${fmt(1 / r.p)}</td>
+    </tr>`;
+  });
+  html += "</tbody></table>";
+
+  const product = Math.exp(sumLog);
+  const pp = Math.exp(sumLog / N);
+  const shown = rows.slice(0, 8).map(r => fmt(1 / r.p)).join(" × ") + (N > 8 ? " × …" : "");
+  
+  html += `
+  <div class="steps">
+    <b>Step 1 — Multiply the Surprise (1/P values):</b><br>
+    <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-muted);">${shown}</span> = <b>${fmt(product)}</b><br><br>
+    <b>Step 2 — Count Royal Tokens:</b> N = <b>${N}</b><br><br>
+    <b>Step 3 — Take the N-th Root:</b> (${fmt(product)})<sup>1/${N}</sup> = <b>${fmt(pp)}</b>
+  </div>
+
+  <div class="result-banner">
+    <div>
+      <div class="result-label">⚜ Royal Perplexity Score</div>
+      <div class="result-desc">
+        The palace model was on average as uncertain as choosing between ~<strong>${fmt(pp)}</strong> equally likely tokens.
+      </div>
+    </div>
+    <div class="result-number">${fmt(pp)}</div>
+  </div>`;
+  
+  return html;
+}
+
+// ---------- Real Model Execution ----------
+async function loadModel() {
+  if (model) return;
+  $("status").innerHTML = `<span class="status-gem" style="background:#f59e0b;"></span> Downloading DistilGPT-2 into browser… (first time only)`;
+  tokenizer = await AutoTokenizer.from_pretrained(MODEL_ID);
+  model = await AutoModelForCausalLM.from_pretrained(MODEL_ID, {
+    dtype: "q8",
+    progress_callback: (e) => {
+      if (e.status === "progress" && e.file && e.file.endsWith(".onnx")) {
+        $("status").innerHTML = `<span class="status-gem" style="background:#f59e0b;"></span> Downloading neural model weights… <strong>${Math.round(e.progress)}%</strong>`;
+      }
+    },
+  });
+}
+
+function logSoftmaxRow(data, offset, V) {
+  let max = -Infinity;
+  for (let j = 0; j < V; j++) if (data[offset + j] > max) max = data[offset + j];
+  let sum = 0;
+  for (let j = 0; j < V; j++) sum += Math.exp(data[offset + j] - max);
+  const logZ = max + Math.log(sum);
+  return (id) => data[offset + id] - logZ;
+}
+
+async function run() {
+  const text = $("sentence").value;
+  if (!text.trim()) return;
+  $("runBtn").disabled = true;
+  try {
+    await loadModel();
+    $("status").innerHTML = `<span class="status-gem" style="background:#10b981;"></span> Model ready. Calculating royal perplexity…`;
+    const ids = [START_TOKEN_ID, ...tokenizer.encode(text)];
+    const n = ids.length;
+    const input_ids = new Tensor("int64", BigInt64Array.from(ids.map(BigInt)), [1, n]);
+    const attention_mask = new Tensor("int64", new BigInt64Array(n).fill(1n), [1, n]);
+    const { logits } = await model({ input_ids, attention_mask });
+    const V = logits.dims[2];
+    const data = logits.data;
+
+    // P(token i | tokens before it)
+    const rows = [];
+    for (let i = 1; i < n; i++) {
+      const logP = logSoftmaxRow(data, (i - 1) * V, V);
+      rows.push({ token: tokenizer.decode([ids[i]]), p: Math.exp(logP(ids[i])) });
+    }
+    $("realOut").innerHTML = `<p style="font-size:13.5px; color:var(--text-muted); margin: 4px 0 10px;">The initial token is evaluated against the palace start marker (<code>&lt;|endoftext|&gt;</code>), assigning an exact probability to every token.</p>` + explain(rows);
+    $("realCard").style.display = "block";
+
+    // Top 8 next tokens
+    const lastLogP = logSoftmaxRow(data, (n - 1) * V, V);
+    const probs = [];
+    for (let j = 0; j < V; j++) probs.push([j, Math.exp(lastLogP(j))]);
+    probs.sort((a, b) => b[1] - a[1]);
+    const top = probs.slice(0, 8);
+    const maxP = top[0][1];
+    $("nextOut").innerHTML = top.map(([id, p], k) => `
+      <div class="bar-row ${k === 0 ? "top" : ""}">
+        <span class="rank-badge">#${k + 1}</span>
+        <span class="tok">${showToken(tokenizer.decode([id]))}</span>
+        <div class="bar"><div class="fill" style="width:${(p / maxP) * 100}%"></div></div>
+        <span class="pct-num">${(p * 100).toFixed(1)}%</span>
+      </div>`).join("");
+    $("nextCard").style.display = "block";
+    $("status").innerHTML = `<span class="status-gem" style="background:#10b981;"></span> Model ready & verified ✓`;
+  } catch (err) {
+    $("status").innerHTML = `<div class="error"><strong>Could not run browser model:</strong> ${err.message}. If opening directly from file explorer (<code>file://</code>), run via a local server (e.g. <code>python3 -m http.server 8000</code>). Note: <strong>Section 4</strong> (Handcrafted Palace Simulation) works immediately!</div>`;
+    console.error(err);
+  }
+  $("runBtn").disabled = false;
+}
+
+$("runBtn").onclick = run;
+document.querySelectorAll(".sample").forEach(b => b.onclick = () => { 
+  $("sentence").value = b.textContent; 
+  run(); 
+});
+
+// ---------- Handcrafted Simulated Experiment ----------
+function addRow(token = "", p = 0.5) {
+  const div = document.createElement("div");
+  div.className = "row-input";
+  div.innerHTML = `<input type="text" value="${token}" placeholder="Token name">
+                   <input type="number" min="0.0001" max="1" step="0.01" value="${p}">
+                   <button class="btn-remove">Remove</button>`;
+  div.querySelector(".btn-remove").onclick = () => { div.remove(); updateSim(); };
+  div.querySelectorAll("input").forEach(inp => inp.oninput = updateSim);
+  $("simRows").appendChild(div);
+}
+
+function updateSim() {
+  const rows = [...document.querySelectorAll("#simRows .row-input")].map(d => {
+    const [t, p] = d.querySelectorAll("input");
+    return { token: t.value || "?", p: parseFloat(p.value) };
+  });
+  if (rows.length === 0) { $("simOut").innerHTML = ""; return; }
+  if (rows.some(r => !(r.p > 0 && r.p <= 1))) {
+    $("simOut").innerHTML = `<div class="error">Each probability must be greater than 0 and at most 1.0</div>`;
+    return;
+  }
+  $("simOut").innerHTML = explain(rows);
+}
+
+function loadPreset(str) {
+  $("simRows").innerHTML = "";
+  str.split(",").forEach(pair => { 
+    const [t, p] = pair.split(":"); 
+    addRow(t, parseFloat(p)); 
+  });
+  updateSim();
+}
+
+document.querySelectorAll(".preset").forEach(b => b.onclick = () => loadPreset(b.dataset.p));
+$("addRow").onclick = () => { addRow("royal_token", 0.5); updateSim(); };
+
+// Initialize default preset with Newton School of Technology
+loadPreset("I:0.65,love:0.75,Newton:0.60,School:0.85,of:0.95,Technology:0.90");
+
+// Ambient Background Sparkles
+const canvas = document.getElementById('sparkle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class Sparkle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2.5 + 1;
+    this.speedY = -(Math.random() * 0.5 + 0.2);
+    this.opacity = Math.random() * 0.5 + 0.2;
+    this.fade = Math.random() * 0.005 + 0.002;
+    this.color = Math.random() > 0.4 ? 'rgba(212, 175, 55, ' : 'rgba(244, 114, 182, ';
+  }
+  update() {
+    this.y += this.speedY;
+    this.opacity -= this.fade;
+    if (this.opacity <= 0 || this.y < 0) {
+      this.reset();
+      this.y = canvas.height + 10;
+    }
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.color + this.opacity + ')';
+    ctx.fill();
+  }
+}
+for (let i = 0; i < 35; i++) particles.push(new Sparkle());
+function animateSparkles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateSparkles);
+}
+animateSparkles();
+</script>
+</body>
+</html>
